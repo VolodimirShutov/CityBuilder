@@ -1,6 +1,7 @@
 using City.Common.ModePanel;
-using City.Common.Signals;
 using City.GameControl;
+using ShootCommon.Signals;
+using ShootCommon.Views.Mediation;
 using UniRx;
 
 namespace City.Views.Buildings

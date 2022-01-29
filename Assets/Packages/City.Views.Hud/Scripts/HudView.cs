@@ -1,3 +1,4 @@
+using ShootCommon.Views.Mediation;
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,5 +1,5 @@
-using City.Common.Signals;
 using Packages.CIty.Views.BuildingsInfoView.Scripts;
+using ShootCommon.Signals;
 using UniRx;
 using UnityEngine;
 using Zenject;

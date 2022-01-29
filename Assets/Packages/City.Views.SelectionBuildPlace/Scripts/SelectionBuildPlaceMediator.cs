@@ -2,6 +2,7 @@ using City.Common.ModePanel;
 using City.GameControl;
 using City.Views.BuildSelectionPanel;
 using Packages.CIty.Views.BuildingsInfoView.Scripts;
+using ShootCommon.Views.Mediation;
 using UniRx;
 using Zenject;
 

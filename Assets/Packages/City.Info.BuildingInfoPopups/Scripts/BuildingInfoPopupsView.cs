@@ -1,7 +1,6 @@
-using City.Common.Signals;
 using City.GameControl;
-using City.Views;
-using City.Views.Buildings;
+using ShootCommon.Signals;
+using ShootCommon.Views.Mediation;
 using UnityEngine;
 
 namespace City.Info.BuildingInfoPopups

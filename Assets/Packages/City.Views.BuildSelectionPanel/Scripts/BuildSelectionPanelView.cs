@@ -1,5 +1,6 @@
 using System;
 using Packages.CIty.Views.BuildingsInfoView.Scripts;
+using ShootCommon.Views.Mediation;
 using UnityEngine;
 
 namespace City.Views.BuildSelectionPanel

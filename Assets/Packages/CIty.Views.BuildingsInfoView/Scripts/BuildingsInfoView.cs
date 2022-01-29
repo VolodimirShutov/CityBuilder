@@ -1,4 +1,5 @@
 using City.Views;
+using ShootCommon.Views.Mediation;
 using UnityEngine;
 
 namespace Packages.CIty.Views.BuildingsInfoView.Scripts

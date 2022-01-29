@@ -1,3 +1,5 @@
+using ShootCommon.Views.Mediation;
+
 namespace City.Views.BuildingPlane
 {
     public class BuildingPlanView : View

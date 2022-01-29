@@ -1,4 +1,4 @@
-using City.Views;
+using ShootCommon.Views.Mediation;
 using Zenject;
 
 namespace Packages.CIty.Views.BuildingsInfoView.Scripts

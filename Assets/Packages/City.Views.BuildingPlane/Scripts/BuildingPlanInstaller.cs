@@ -1,3 +1,4 @@
+using ShootCommon.Views.Mediation;
 using Zenject;
 
 namespace City.Views.BuildingPlane

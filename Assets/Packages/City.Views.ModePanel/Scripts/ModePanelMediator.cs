@@ -1,5 +1,6 @@
-using City.Common.Signals;
 using City.Views;
+using ShootCommon.Signals;
+using ShootCommon.Views.Mediation;
 
 namespace City.Common.ModePanel
 {

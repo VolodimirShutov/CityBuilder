@@ -1,8 +1,7 @@
 using System;
-using City.Common.Utils;
 using City.GameControl;
 using City.Views.Buildings;
-using UniRx;
+using ShootCommon.Views.Mediation;
 using UnityEngine;
 
 namespace City.Views.SelectionBuildPlace

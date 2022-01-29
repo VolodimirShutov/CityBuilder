@@ -1,6 +1,7 @@
 using City.Common.ModePanel;
-using City.Common.Signals;
 using Packages.CIty.Views.BuildingsInfoView.Scripts;
+using ShootCommon.Signals;
+using ShootCommon.Views.Mediation;
 using UniRx;
 using Zenject;
 

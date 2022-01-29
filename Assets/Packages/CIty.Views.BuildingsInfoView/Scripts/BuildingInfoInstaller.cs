@@ -1,5 +1,4 @@
-using System.ComponentModel;
-using City.Views;
+using ShootCommon.Views.Mediation;
 using Zenject;
 
 namespace Packages.CIty.Views.BuildingsInfoView.Scripts
@@ -11,7 +10,6 @@ namespace Packages.CIty.Views.BuildingsInfoView.Scripts
         {
             Container.Bind<IBuildingInfoContainer>().To<BuildingInfoContainer>().AsSingle();
             Container.BindViewToMediator<BuildingsInfoView, BuildingInfoMediator>();
-            //Container.BindPrefabToRoot<ModePanelView, CanvasHudRoot>();
         }
     }
 }

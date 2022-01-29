@@ -1,6 +1,7 @@
 using System;
 using City.GameControl;
 using Packages.CIty.Views.BuildingsInfoView.Scripts;
+using ShootCommon.Views.Mediation;
 using UnityEngine;
 
 namespace City.Views.Buildings
