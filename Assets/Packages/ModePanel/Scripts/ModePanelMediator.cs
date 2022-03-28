@@ -1,10 +1,9 @@
-using City.Views;
 using ShootCommon.Signals;
 using ShootCommon.Views.Mediation;
 
 namespace City.Common.ModePanel
 {
-    public class ModePanelMediator : Mediator<ModePanelView>
+    public class ModePanelMediator : Mediator<ModePanelView> 
     {
         protected override void OnMediatorInitialize()
         {

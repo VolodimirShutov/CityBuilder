@@ -1,25 +1,34 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using ShootCommon.AssetReferences.Signals;
+using ShootCommon.Signals;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.U2D;
+using Zenject;
 using Object = UnityEngine.Object;
 
 namespace ShootCommon.AssetReferences
 {
-    public class AssetReferenceStorage : IAssetReferenceStorage
+    public class AssetReferenceDownloader : IAssetReferenceDownloader
     {
         private static int _maxUploaders = 10;
-        private readonly List<string> _uploadedInGeneral = new List<string>();
-        private List<string> _waiteForUpload = new List<string>();
+        private readonly List<string> _uploadingPool = new List<string>();
         private readonly List<UploadingModel> _workers = new List<UploadingModel>();
 
         private int _inUploading;
 
         public bool AllUploded => _workers.Count == 0;
         public int WorkersCount => _workers.Count;
+
+        private ISignalService _signalService;
+
+        [Inject]
+        public void Init(ISignalService signalService)
+        {
+            _signalService = signalService;
+        }
 
         public void SpawnScriptableById(string id, Action<ScriptableObject> callback)
         {
@@ -32,26 +41,9 @@ namespace ShootCommon.AssetReferences
             });
         }
         
-        private bool CheckUploadedInGeneral(string id)
-        {
-            return _uploadedInGeneral.Contains(id);
-        }
-
-        private void ClearWaiteForUpload()
-        {
-            List<string> waiteForUpload = new List<string>();
-            foreach (string id in _waiteForUpload)
-            {
-                if (!CheckUploadedInGeneral(id))
-                {
-                    waiteForUpload.Add(id);
-                }
-            }
-            _waiteForUpload = waiteForUpload;
-        }
-
         private void TryUpload()
         {
+            _signalService.Publish(new AssetDownloaderProgressSignal(){Value = _workers.Count + _inUploading});
             if (_inUploading < _maxUploaders && _workers.Count > _inUploading )
             {
                 UploadingModel uploadingModel = _workers[_inUploading];
@@ -63,13 +55,14 @@ namespace ShootCommon.AssetReferences
         
         public void SpawnById(string id, Action<GameObject> callback)
         {
-            UploadingModel uploadingModel = new UploadingModel();
-            uploadingModel.Id = id;
-            uploadingModel.CallbackGameObject = callback;
-            uploadingModel.Worker = SpawnByIdWorker;
-            
+            UploadingModel uploadingModel = new UploadingModel
+            {
+                Id = id,
+                CallbackGameObject = callback,
+                Worker = SpawnByIdWorker
+            };
+
             _workers.Add(uploadingModel);
-            _waiteForUpload.Add(id);
             TryUpload();
         }
 
@@ -77,11 +70,10 @@ namespace ShootCommon.AssetReferences
         {
             Addressables.LoadAssetAsync<GameObject>(uploadingModel.Id).Completed += (obj =>
             {
-                if(!_uploadedInGeneral.Contains(uploadingModel.Id))
-                    _uploadedInGeneral.Add(uploadingModel.Id);
+                if(!_uploadingPool.Contains(uploadingModel.Id))
+                    _uploadingPool.Add(uploadingModel.Id);
                 GameObject myGameObject = obj.Result;
                 uploadingModel.CallbackGameObject?.Invoke(myGameObject);
-                ClearWaiteForUpload();
                 _inUploading--;
                 TryUpload();
             });
@@ -89,26 +81,25 @@ namespace ShootCommon.AssetReferences
 
         public void SpawnSpriteById(string id, Action<Sprite> callback)
         {
-            UploadingModel uploadingModel = new UploadingModel();
-            uploadingModel.Id = id;
-            uploadingModel.CallbackSprite = callback;
-            uploadingModel.Worker = SpawnSpriteByIdWorker;
-            
+            UploadingModel uploadingModel = new UploadingModel
+            {
+                Id = id,
+                CallbackSprite = callback,
+                Worker = SpawnSpriteByIdWorker
+            };
+
             _workers.Add(uploadingModel);
-            _waiteForUpload.Add(id);
             TryUpload();
         }
 
         private void SpawnSpriteByIdWorker(UploadingModel uploadingModel)
         {
-            //Debug.Log("SpawnSpriteById " + uploadingModel.Id);
             Addressables.LoadAssetAsync<Sprite>(uploadingModel.Id).Completed += (obj =>
             {
-                if(!_uploadedInGeneral.Contains(uploadingModel.Id))
-                    _uploadedInGeneral.Add(uploadingModel.Id);
+                if(!_uploadingPool.Contains(uploadingModel.Id))
+                    _uploadingPool.Add(uploadingModel.Id);
                 Sprite sprite = obj.Result;
                 uploadingModel.CallbackSprite?.Invoke(sprite);
-                ClearWaiteForUpload();
                 _inUploading--;
                 TryUpload();
             });
@@ -116,26 +107,25 @@ namespace ShootCommon.AssetReferences
         
         private void SpawnObjectById(string id, Action<Object> callback)
         {
-            UploadingModel uploadingModel = new UploadingModel();
-            uploadingModel.Id = id;
-            uploadingModel.CallbackObject = callback;
-            uploadingModel.Worker = SpawnObjectByIdWorker;
-            
+            UploadingModel uploadingModel = new UploadingModel
+            {
+                Id = id,
+                CallbackObject = callback,
+                Worker = SpawnObjectByIdWorker
+            };
+
             _workers.Add(uploadingModel);
-            _waiteForUpload.Add(id);
             TryUpload();
         }
 
         private void SpawnObjectByIdWorker(UploadingModel uploadingModel)
         {
-            //Debug.Log("SpawnObjectById " + uploadingModel.Id);
             Addressables.LoadAssetAsync<Object>(uploadingModel.Id).Completed += (obj =>
             {
-                if(!_uploadedInGeneral.Contains(uploadingModel.Id))
-                    _uploadedInGeneral.Add(uploadingModel.Id);
+                if(!_uploadingPool.Contains(uploadingModel.Id))
+                    _uploadingPool.Add(uploadingModel.Id);
                 Object result = obj.Result;
                 uploadingModel.CallbackObject?.Invoke(result);
-                ClearWaiteForUpload();
                 _inUploading--;
                 TryUpload();
             });
@@ -143,13 +133,14 @@ namespace ShootCommon.AssetReferences
         
         public void SpawnObjectByIdAndDispose(string id, Action<Object> callback)
         {
-            UploadingModel uploadingModel = new UploadingModel();
-            uploadingModel.Id = id;
-            uploadingModel.CallbackObject = callback;
-            uploadingModel.Worker = SpawnObjectByIdAndDisposeWorker;
-            
+            UploadingModel uploadingModel = new UploadingModel
+            {
+                Id = id,
+                CallbackObject = callback,
+                Worker = SpawnObjectByIdAndDisposeWorker
+            };
+
             _workers.Add(uploadingModel);
-            _waiteForUpload.Add(id);
             TryUpload();
         }
 
@@ -171,12 +162,10 @@ namespace ShootCommon.AssetReferences
                         {
                             Debug.Log(update);
                         }
-                        // proceed with downloading new content
                     }
                     else
                     {
                         Debug.LogError("No Available Update");
-                        // proceed with loading from cache
                     }
                 
                     callbackResult?.Invoke(checkForUpdates.Result.Count > 0);
@@ -188,11 +177,10 @@ namespace ShootCommon.AssetReferences
         {
             Addressables.LoadAssetAsync<Object>(uploadingModel.Id).Completed += (obj =>
             {
-                if (!_uploadedInGeneral.Contains(uploadingModel.Id))
-                    _uploadedInGeneral.Add(uploadingModel.Id);
+                if (!_uploadingPool.Contains(uploadingModel.Id))
+                    _uploadingPool.Add(uploadingModel.Id);
                 Object result = obj.Result;
                 uploadingModel.CallbackObject?.Invoke(result);
-                ClearWaiteForUpload();
                 _inUploading--;
                 Addressables.Release(obj);
 
@@ -205,7 +193,6 @@ namespace ShootCommon.AssetReferences
             Action<GameObject> callbackGameObject,
             Action<SpriteAtlas> callbackSpriteAtlas = null)
         {
-            //Debug.Log("SpawnUnknownById " + id);
             SpawnObjectById(id, o =>
             {
                 if (o is Sprite sprite)
@@ -236,7 +223,6 @@ namespace ShootCommon.AssetReferences
             public Action<UploadingModel> Worker;
             public Action<Sprite> CallbackSprite;
             public Action<GameObject> CallbackGameObject;
-            public Action<SpriteAtlas> CallbackSpriteAtlas;
             public Action<Object> CallbackObject;
         }
     }

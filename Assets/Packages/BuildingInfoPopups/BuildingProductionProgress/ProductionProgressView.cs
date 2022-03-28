@@ -15,7 +15,10 @@ namespace City.Info.BuildingInfoPopups
             UpdateProgress();
             Observable.Timer (System.TimeSpan.FromSeconds (1)) 
                 .Repeat () 
-                .Subscribe (_ => { UpdateProgress(); }).AddTo (Disposables); 
+                .Subscribe (_ =>
+                {
+                    UpdateProgress();
+                }).AddTo (Disposables); 
         }
 
         private void UpdateProgress()

@@ -35,12 +35,10 @@ namespace ShootCommon.GlobalStateMachine
         
         public void Initialize()
         {
-            //Debug.Log("StateMachineController Initialize");
             Fire(StateMachineTriggers.Start);
         }
         
-        public IState GetState<TState>()
-            where TState: IState
+        public IState GetState<TState>() where TState: IState
         {
             if (_states.TryGetValue(typeof(TState), out var state))
                 return state;

@@ -6,7 +6,7 @@ namespace ShootCommon.AssetReferences
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<AssetReferenceStorage>().AsSingle();
+            Container.BindInterfacesTo<AssetReferenceDownloader>().AsSingle();
         }
     }
 }

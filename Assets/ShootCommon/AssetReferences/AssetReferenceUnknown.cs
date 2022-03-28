@@ -11,20 +11,20 @@ namespace ShootCommon.AssetReferences
         [Header("Check flag if wait image, for safe load.")]
         [SerializeField] private bool waitImage = false;
 
-        private IAssetReferenceStorage _assetReferenceStorage;
+        private IAssetReferenceDownloader _assetReferenceDownloader;
         
         private void SetInject()
         {
             if(image != null)image.gameObject.SetActive(false);
             
-            if (_assetReferenceStorage == null)
+            if (_assetReferenceDownloader == null)
                 ProjectContext.Instance.Container.Inject(this);
         }
         
         [Inject]
-        public void Init(IAssetReferenceStorage assetReferenceStorage)
+        public void Init(IAssetReferenceDownloader assetReferenceDownloader)
         {
-            _assetReferenceStorage = assetReferenceStorage;
+            _assetReferenceDownloader = assetReferenceDownloader;
         }
 
         public void Upload(string spriteName)
@@ -39,7 +39,7 @@ namespace ShootCommon.AssetReferences
         {
             SetInject();
             
-            _assetReferenceStorage.SpawnUnknownById(spriteName, 
+            _assetReferenceDownloader.SpawnUnknownById(spriteName, 
                 AddImage,
                 AddGameObject, 
                 spriteAtlas =>
@@ -52,7 +52,7 @@ namespace ShootCommon.AssetReferences
         {
             SetInject();
             
-            _assetReferenceStorage.SpawnUnknownById(source, 
+            _assetReferenceDownloader.SpawnUnknownById(source, 
                 AddImage,
                 AddGameObject, 
                 spriteAtlas =>

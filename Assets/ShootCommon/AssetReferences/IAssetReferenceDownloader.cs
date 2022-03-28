@@ -5,7 +5,7 @@ using Object = UnityEngine.Object;
 
 namespace ShootCommon.AssetReferences
 {
-    public interface IAssetReferenceStorage
+    public interface IAssetReferenceDownloader
     {
         void SpawnScriptableById(string id, Action<ScriptableObject> callback);
         public bool AllUploded { get; }

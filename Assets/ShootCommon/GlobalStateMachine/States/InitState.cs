@@ -4,7 +4,7 @@ namespace ShootCommon.GlobalStateMachine.States
     {
         protected override void Configure()
         {
-            //Permit<StartState>(StateMachineTriggers.Start);
+            Permit<StartState>(StateMachineTriggers.Start);
         }
     }
 }

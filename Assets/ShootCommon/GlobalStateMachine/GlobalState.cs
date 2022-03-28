@@ -58,6 +58,11 @@ namespace ShootCommon.GlobalStateMachine
         
         protected virtual void OnEntry(StateMachine<IState, StateMachineTriggers>.Transition transition = null)
         {
+            OnEntry();
+        }
+
+        protected virtual void OnEntry()
+        {
         }
         
         protected virtual void OnExit()

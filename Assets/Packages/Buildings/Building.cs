@@ -1,5 +1,6 @@
 using System;
 using City.GameControl;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,9 +10,9 @@ namespace City.Views.Buildings
     {
         public Action<BigBuildingModel> BuildingSelectedAction;
         [FormerlySerializedAs("TryBuildModel")] public BigBuildingModel bigBuildingModel;
-        
         [SerializeField] public BuildingCollider collider;
-    
+        [SerializeField] private string buildingId = "";
+        
         private void Start()
         {
             collider.OnCickAction += BuildingSelected;
@@ -24,4 +25,5 @@ namespace City.Views.Buildings
             BuildingSelectedAction?.Invoke(bigBuildingModel);
         }
     }
+
 }
