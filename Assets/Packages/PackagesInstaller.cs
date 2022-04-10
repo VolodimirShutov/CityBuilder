@@ -5,8 +5,8 @@ using City.Views.BuildingPlane;
 using City.Views.Buildings;
 using City.Views.BuildSelectionPanel;
 using City.Views.Hud;
-using City.Views.SelectionBuildPlace;
 using Packages.CIty.Views.BuildingsInfoView.Scripts;
+using Packages.Navigation;
 using Packages.Preloader;
 using Packages.SceneController;
 using Zenject;
@@ -18,6 +18,7 @@ namespace Packages
         public override void InstallBindings()
         {
             SceneControllerInstaller.Install(Container);
+            NavigationInstaller.Install(Container);
             PreloaderInstaller.Install(Container);
             BuildingInfoPopupsInstaller.Install(Container);
             BuildingPlanInstaller.Install(Container);
@@ -27,7 +28,6 @@ namespace Packages
             GameControlInstaller.Install(Container);
             HudInstaller.Install(Container);
             ModePanelInstaller.Install(Container);
-            SelectionBuildPlaceInstaller.Install(Container);
         }
     }
 }

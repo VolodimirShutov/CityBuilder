@@ -1,6 +1,6 @@
 using City.Common.ModePanel;
+using Packages.BuildSelectionPanel.Signals;
 using Packages.CIty.Views.BuildingsInfoView.Scripts;
-using ShootCommon.Signals;
 using ShootCommon.Views.Mediation;
 using UniRx;
 using Zenject;
@@ -64,6 +64,4 @@ namespace City.Views.BuildSelectionPanel
             });
         }
     }
-    
-    public class BuildBuildingIsSelectedSignal : AsyncSignal<int>{}
 }

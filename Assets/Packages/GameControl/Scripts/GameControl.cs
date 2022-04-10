@@ -44,7 +44,7 @@ namespace City.GameControl
         
         private void TryBuild(TryBuildSignal signal)
         {
-            OnBuild(signal.Value.BuildingInfo, signal.Value.X,-signal.Value.Y);
+            OnBuild(signal.Value.BuildingInfo, signal.Value.X, signal.Value.Y);
         }
 
         private void InitFinanceControl()
@@ -99,7 +99,7 @@ namespace City.GameControl
                 BigBuildingModel model = new BigBuildingModel()
                 {
                     X = xPosition,
-                    Y = - yPosition,
+                    Y = yPosition,
                     BuildingInfo = building,
                     Id = id
                 };

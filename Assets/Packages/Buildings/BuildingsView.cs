@@ -10,16 +10,10 @@ namespace City.Views.Buildings
     {
         public Action<BigBuildingModel> BuildingSelectedAction;
         
-        private static float CellWidth = 10;
-        private static float CellHeight = 10;
-
         public void AddBuilding(BigBuildingModel model)
         {
             GameObject loadedPrefab = Instantiate(model.BuildingInfo.Prefab , transform, false);
-            loadedPrefab.transform.localPosition = new Vector3(model.X * CellWidth,
-                model.BuildingInfo.Prefab.transform.position.y, 
-                model.Y * CellHeight);
-            
+            loadedPrefab.transform.localPosition = new Vector3(model.X , 0, model.Y);
             
             Building script = loadedPrefab.GetComponent<Building>();
             script.bigBuildingModel = model;

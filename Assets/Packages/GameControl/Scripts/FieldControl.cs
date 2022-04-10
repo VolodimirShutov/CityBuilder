@@ -5,14 +5,14 @@ namespace City.GameControl
 {
     public class FieldControl
     {
-        private static int FieldXSize = 12;
-        private static int FieldYSize = 12;
+        private static int FieldXSize = 100;
+        private static int FieldYSize = 100;
         
-        private bool[,] _fieldInfo = new bool[12,12];
+        private bool[,] _fieldInfo = new bool[100,100];
 
         public void InitField()
         {
-            _fieldInfo = new bool[12,12];
+            _fieldInfo =  new bool[100,100];
         }
         
         public bool CanBuild(BuildingInfoModel building, int xPosition, int yPosition)
