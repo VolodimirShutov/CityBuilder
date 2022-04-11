@@ -8,5 +8,6 @@ namespace Packages.Navigation.Signals
         public float Distance;
         public Ray Ray;
         public int TouchId;
+        public Vector2 FingerPosition;
     }
 }

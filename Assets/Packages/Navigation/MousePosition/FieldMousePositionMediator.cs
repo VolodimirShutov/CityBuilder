@@ -17,6 +17,7 @@ namespace Packages.Navigation.MousePosition
             View.OnMouseDown += OnMouseDown;
             View.OnMouseUp += OnMouseUp;
             View.OnMouseClick += OnMouseClick;
+            View.DiscardMove += DiscardMove;
 
             SignalService.Receive<CanvasRayBlockSignal>().Subscribe(CanvasRayBlock).AddTo(DisposeOnDestroy);
             SignalService.Receive<CanvasRayUnblockSignal>().Subscribe(CanvasRayUnblock).AddTo(DisposeOnDestroy);
@@ -24,8 +25,6 @@ namespace Packages.Navigation.MousePosition
 
         private void UpdateMousePosition(UpdateMousePositionSignal signal)
         {
-            //Vector3 position = signal.Ray.GetPoint(signal.Distance);
-            //Debug.Log(position);
             SignalService.Publish(signal);
         }
 
@@ -42,6 +41,11 @@ namespace Packages.Navigation.MousePosition
         private void OnMouseClick(ClickMouseSignal clickMouseSignal)
         {
             SignalService.Publish(clickMouseSignal);
+        }
+
+        private void DiscardMove(DiscardMoveSignal signal)
+        {
+            SignalService.Publish(signal);
         }
         
         private void CanvasRayBlock(CanvasRayBlockSignal signal)

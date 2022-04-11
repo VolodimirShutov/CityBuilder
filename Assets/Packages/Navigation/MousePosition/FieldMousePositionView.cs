@@ -13,10 +13,11 @@ namespace Packages.Navigation.MousePosition
         public Action<DownMouseSignal> OnMouseDown { get; set; }
         public Action<UpMouseSignal> OnMouseUp { get; set; }
         public Action<ClickMouseSignal> OnMouseClick { get; set; }
+        public Action<DiscardMoveSignal> DiscardMove { get; set; }
         public bool GameStopped { get; set; } = false;
-        private readonly List<ActiveToucheModel> _activeTouches = new List<ActiveToucheModel>();
+        private List<ActiveToucheModel> _activeTouches = new List<ActiveToucheModel>();
         private Camera _mainCamera;
-        private float _clickDistance = 1f;
+        private readonly float _clickDistance = 1f;
         
         public void Start()
         {
@@ -36,8 +37,19 @@ namespace Packages.Navigation.MousePosition
         
         public void FixedUpdate()
         {
-            if(GameStopped)
+            if (GameStopped)
+            {
+                foreach (ActiveToucheModel model in _activeTouches)
+                {
+                    DiscardMove?.Invoke(new DiscardMoveSignal()
+                    {
+                        Id = model.ID
+                    });
+                }
+
+                _activeTouches = new List<ActiveToucheModel>();
                 return;
+            }
 #if UNITY_EDITOR
             EditorInput();
 #else
@@ -100,13 +112,13 @@ namespace Packages.Navigation.MousePosition
             {
                 Distance = distance,
                 Ray = ray,
-                TouchId = fingerId
+                TouchId = fingerId,
+                FingerPosition = position
             });
         }
 
         private void MouseDown(int fingerId, Vector2 position)
         {
-            Debug.Log("MouseDown");
             _activeTouches.Add(new ActiveToucheModel()
             {
                 ID = fingerId,
@@ -114,7 +126,8 @@ namespace Packages.Navigation.MousePosition
             });
             OnMouseDown?.Invoke(new DownMouseSignal()
             {
-                TouchId = fingerId
+                TouchId = fingerId,
+                FingerPosition = position
             });
         }
 
@@ -122,7 +135,6 @@ namespace Packages.Navigation.MousePosition
         {
             if(touche == null)
                 return;
-            Debug.Log("MouseUp");
             _activeTouches.Remove(touche);
             OnMouseUp?.Invoke(new UpMouseSignal()
             {
@@ -130,7 +142,6 @@ namespace Packages.Navigation.MousePosition
             });
 
             if (!CheckClick(touche, position)) return;
-            Debug.Log("ClickMouseSignal");
                 
             Vector3 mousePoint = position;
             Ray ray = _mainCamera.ScreenPointToRay(mousePoint);

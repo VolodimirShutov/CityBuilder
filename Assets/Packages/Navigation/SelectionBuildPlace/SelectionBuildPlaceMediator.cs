@@ -24,12 +24,9 @@ namespace Packages.Navigation.SelectionBuildPlace
         
         protected override void OnMediatorInitialize()
         {
-            SignalService.Receive<RegularModeSelected>()
-                .Subscribe(RegularMode).AddTo(DisposeOnDestroy);
-            SignalService.Receive<BuildModeSelected>()
-                .Subscribe(BuildMode).AddTo(DisposeOnDestroy);
-            SignalService.Receive<BuildBuildingIsSelectedSignal>()
-                .Subscribe(BuildBuildingIsSelected).AddTo(DisposeOnDestroy);
+            SignalService.Receive<RegularModeSelected>().Subscribe(RegularMode).AddTo(DisposeOnDestroy);
+            SignalService.Receive<BuildModeSelected>().Subscribe(BuildMode).AddTo(DisposeOnDestroy);
+            SignalService.Receive<BuildBuildingIsSelectedSignal>().Subscribe(BuildBuildingIsSelected).AddTo(DisposeOnDestroy);
             
             SignalService.Receive<UpdateMousePositionSignal>().Subscribe(UpdateMousePosition).AddTo(DisposeOnDestroy);
             SignalService.Receive<ClickMouseSignal>().Subscribe(ClickMouse).AddTo(DisposeOnDestroy);

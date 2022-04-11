@@ -1,6 +1,5 @@
 using Packages.Navigation.Signals;
 using ShootCommon.Views.Mediation;
-using UnityEngine;
 
 namespace Packages.Navigation.CanvasRayBlocker
 {
@@ -14,7 +13,6 @@ namespace Packages.Navigation.CanvasRayBlocker
 
         private void OnEnterAction()
         {
-            Debug.Log("OnEnterAction ");
             SignalService.Publish(new CanvasRayBlockSignal()
             {
                 BlockKey = View.keyName
@@ -23,7 +21,6 @@ namespace Packages.Navigation.CanvasRayBlocker
 
         private void OnExitAction()
         {
-            Debug.Log("OnExitAction ");
             SignalService.Publish(new CanvasRayUnblockSignal()
             {
                 BlockKey = View.keyName
