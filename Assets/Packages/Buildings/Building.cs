@@ -1,6 +1,5 @@
 using System;
 using City.GameControl;
-using UniRx;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -25,5 +24,4 @@ namespace City.Views.Buildings
             BuildingSelectedAction?.Invoke(bigBuildingModel);
         }
     }
-
 }

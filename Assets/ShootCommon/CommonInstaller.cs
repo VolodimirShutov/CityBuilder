@@ -1,6 +1,7 @@
 using City.Views;
 using Packages;
 using Packages.Common.StateMachineGlobal;
+using ShootCommon.CachingService;
 using ShootCommon.Signals;
 using Zenject;
 
@@ -10,6 +11,7 @@ namespace Common
     {
         public override void InstallBindings()
         {
+            CachingServiceInstaller.Install(Container);
             MessageBrokerInstaller.Install(Container);
             SignalBusInstaller.Install(Container);
             SignalsInstaller.Install(Container);

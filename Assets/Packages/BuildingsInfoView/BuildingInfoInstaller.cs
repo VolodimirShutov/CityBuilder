@@ -12,4 +12,35 @@ namespace Packages.CIty.Views.BuildingsInfoView.Scripts
             Container.BindViewToMediator<BuildingsInfoView, BuildingInfoMediator>();
         }
     }
+
+    public class Facade
+    {
+        public ClassA _classA { set; private get; }
+        public ClassB _classB{ set; private get; }
+        public ClassC _classC{ set; private get; }
+
+        public void Action1()
+        {
+            //...
+        }
+        
+        public void Action2()
+        {
+            //...
+        }
+    }
+
+    public class ClassA
+    {
+        
+    }
+    public class ClassB
+    {
+        
+    }
+    
+    public class ClassC
+    {
+        
+    }
 }

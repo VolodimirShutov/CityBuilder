@@ -1,6 +1,13 @@
 # CityBuilder
 
-# Демо для архитектурного решения
+## Used tehnologys:
+- https://github.com/modesttree/Zenject
+- https://github.com/neuecc/UniRx
+- https://github.com/dotnet-state-machine/stateless
+- https://github.com/Deadcows/MyBox
+
+
+## Демо для архитектурного решения
 
 Порядок инициализации:
 1. Создайте пустой проект
