@@ -47,7 +47,7 @@ namespace MyBox.Internal
 {
 	using UnityEditor;
 	using EditorTools;
-	using UnityEditor.Experimental.SceneManagement;
+	
 	using Object = UnityEngine.Object;
 	using System.Collections.Generic;
 	using System.Linq;
@@ -108,8 +108,8 @@ namespace MyBox.Internal
 			// this event is for GameObjects in the project.
 			MyEditorEvents.OnSave += CheckAssets;
 			// this event is for prefabs saved in edit mode.
-			PrefabStage.prefabSaved += CheckComponentsInPrefab;
-			PrefabStage.prefabStageOpened += stage => CheckComponentsInPrefab(stage.prefabContentsRoot);
+			UnityEditor.SceneManagement.PrefabStage.prefabSaved += CheckComponentsInPrefab;
+			UnityEditor.SceneManagement.PrefabStage.prefabStageOpened += stage => CheckComponentsInPrefab(stage.prefabContentsRoot);
 		}
 
 		private static void CheckAssets()
