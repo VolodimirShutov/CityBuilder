@@ -1,4 +1,5 @@
 using City.Views;
+using Common.SoundManager;
 using Packages;
 using Packages.Common.StateMachineGlobal;
 using ShootCommon.CachingService;
@@ -16,6 +17,7 @@ namespace Common
             SignalBusInstaller.Install(Container);
             SignalsInstaller.Install(Container);
             
+            SoundInitstaller.Install(Container);
             PackagesInstaller.Install(Container);
 
             GlobalStateMachineInstaller.Install(Container);
