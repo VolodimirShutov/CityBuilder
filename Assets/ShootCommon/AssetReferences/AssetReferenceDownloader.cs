@@ -143,6 +143,48 @@ namespace ShootCommon.AssetReferences
             _workers.Add(uploadingModel);
             TryUpload();
         }
+        
+        private void SpawnObjectByIdAndDisposeWorker(UploadingModel uploadingModel)
+        {
+            Addressables.LoadAssetAsync<Object>(uploadingModel.Id).Completed += (obj =>
+            {
+                if (!_uploadingPool.Contains(uploadingModel.Id))
+                    _uploadingPool.Add(uploadingModel.Id);
+                Object result = obj.Result;
+                uploadingModel.CallbackObject?.Invoke(result);
+                _inUploading--;
+                Addressables.Release(obj);
+
+                TryUpload();
+            });
+        }
+        
+        public void SpawnAudioById(string id, Action<AudioClip> callback)
+        {
+            UploadingModel uploadingModel = new UploadingModel
+            {
+                Id = id,
+                CallbackAudio = callback,
+                Worker = SpawnAudioByIdWorker
+            };
+
+            _workers.Add(uploadingModel);
+            TryUpload();
+        }
+
+        private void SpawnAudioByIdWorker(UploadingModel uploadingModel)
+        {
+            Addressables.LoadAssetAsync<AudioClip>(uploadingModel.Id).Completed += (obj =>
+            {
+                if(!_uploadingPool.Contains(uploadingModel.Id))
+                    _uploadingPool.Add(uploadingModel.Id);
+                AudioClip result = obj.Result;
+                uploadingModel.CallbackAudio?.Invoke(result);
+                _inUploading--;
+                TryUpload();
+            });
+        }
+
 
         public void CheckPreloadUpdate(Action<bool> callbackResult)
         {
@@ -173,20 +215,6 @@ namespace ShootCommon.AssetReferences
             };
         }
         
-        private void SpawnObjectByIdAndDisposeWorker(UploadingModel uploadingModel)
-        {
-            Addressables.LoadAssetAsync<Object>(uploadingModel.Id).Completed += (obj =>
-            {
-                if (!_uploadingPool.Contains(uploadingModel.Id))
-                    _uploadingPool.Add(uploadingModel.Id);
-                Object result = obj.Result;
-                uploadingModel.CallbackObject?.Invoke(result);
-                _inUploading--;
-                Addressables.Release(obj);
-
-                TryUpload();
-            });
-        }
 
         public void SpawnUnknownById(string id, 
             Action<Sprite> callbackSprite, 
@@ -224,6 +252,7 @@ namespace ShootCommon.AssetReferences
             public Action<Sprite> CallbackSprite;
             public Action<GameObject> CallbackGameObject;
             public Action<Object> CallbackObject;
+            public Action<AudioClip> CallbackAudio;
         }
     }
 }

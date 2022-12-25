@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Common.SoundManager.Config;
 using UnityEngine;

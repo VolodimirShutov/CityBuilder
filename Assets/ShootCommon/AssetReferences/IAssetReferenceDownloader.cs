@@ -7,14 +7,15 @@ namespace ShootCommon.AssetReferences
 {
     public interface IAssetReferenceDownloader
     {
-        void SpawnScriptableById(string id, Action<ScriptableObject> callback);
+        public void SpawnScriptableById(string id, Action<ScriptableObject> callback);
         public bool AllUploded { get; }
         public int WorkersCount{ get; }
-        void SpawnById(string id, Action<GameObject> callback);
-        void SpawnSpriteById(string id, Action<Sprite> callback);
-        void SpawnObjectByIdAndDispose(string id, Action<Object> callback);
-        void CheckPreloadUpdate(Action<bool> callbackResult);
-        void SpawnUnknownById(string id,
+        public void SpawnById(string id, Action<GameObject> callback);
+        public void SpawnSpriteById(string id, Action<Sprite> callback);
+        public void SpawnObjectByIdAndDispose(string id, Action<Object> callback);
+        public void SpawnAudioById(string id, Action<AudioClip> callback);
+        public void CheckPreloadUpdate(Action<bool> callbackResult);
+        public void SpawnUnknownById(string id,
             Action<Sprite> callbackSprite,
             Action<GameObject> callbackGameObject,
             Action<SpriteAtlas> callbackSpriteAtlas = null);
