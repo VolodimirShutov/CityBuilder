@@ -1,0 +1,18 @@
+{
+    "name": "AssetReferenceTest",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e8a878a6740cf40249701c9ffd63ec21"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
