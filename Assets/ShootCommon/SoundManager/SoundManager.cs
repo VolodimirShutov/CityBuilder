@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Common.SoundManager.Config;
+using Common.SoundManager.Signals;
 using ShootCommon.AssetReferences;
 using ShootCommon.Signals;
 using UniRx;
@@ -33,8 +34,14 @@ namespace Common.SoundManager
         public void Init(ISignalService signalService)
         {
             _signalService = signalService;
+            _signalService.Receive<PlayAudioClipSignal>().Subscribe(PlayAddressableSound);
         }
 
+        private void PlayAddressableSound(PlayAudioClipSignal signal)
+        {
+            PlayAudioClip(signal.ClipName, signal.OnDownloadComplete);
+        }
+        
         public AudioMixer SetDefaultAudioMixer
         {
             set
@@ -73,7 +80,6 @@ namespace Common.SoundManager
             {
                 clipModel = CreateAudioClipModel(clipName);
             }
-
             PlayAudioClip(clipModel, onDownloadComplete);
         }
 
@@ -120,21 +126,21 @@ namespace Common.SoundManager
             switch (clipInfo.soundType)
             {
                 case SoundType.Effects:
-                    CreateAndPlay2DGameAudioClip(clipInfo, false);
+                    CreateAndPlayGameAudioClip(clipInfo, false);
                     break;
                 case SoundType.BackgroundMusic:
-                    CreateAndPlay2DGameAudioClip(clipInfo, true);
+                    CreateAndPlayGameAudioClip(clipInfo, true);
                     break;
                 case SoundType.Voice:
-                    CreateAndPlay2DGameAudioClip(clipInfo, false);
+                    CreateAndPlayGameAudioClip(clipInfo, false);
                     break;
                 default:
-                    CreateAndPlay2DGameAudioClip(clipInfo, false);
+                    CreateAndPlayGameAudioClip(clipInfo, false);
                     break;
             }
         }
 
-        private AudioSource CreateAndPlay2DGameAudioClip(AudioClipModel audioClipModel, bool isOnLoop = false)
+        private void CreateAndPlayGameAudioClip(AudioClipModel audioClipModel, bool isOnLoop = false)
         {
             AudioSource audioSource = new GameObject($"{audioClipModel.audioClip.name}").AddComponent<AudioSource>();
             
@@ -152,7 +158,7 @@ namespace Common.SoundManager
             if(!isOnLoop)
                 DestroyClipOnFinish(audioClipModel);
             
-            return audioSource;
+            
         }
         
         private void Delete2DAudioClip(AudioSource source) {

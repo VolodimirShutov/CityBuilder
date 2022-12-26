@@ -1,4 +1,3 @@
-using City.Views;
 using Common.SoundManager;
 using Packages;
 using Packages.Common.StateMachineGlobal;

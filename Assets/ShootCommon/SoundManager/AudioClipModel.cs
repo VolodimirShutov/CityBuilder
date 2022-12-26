@@ -17,6 +17,11 @@ namespace Common.SoundManager
         public AudioMixerGroup audioMixerGroup;
         public float pitch = 1;
 
+        public bool is3dSound;
+        [ConditionalField(nameof(is3dSound), false)]public Vector3 position;
+        [ConditionalField(nameof(is3dSound), false)]public string containerName;
+        
+
         public float AudioClipLength => audioClip == null ? 0 : audioClip.length;
         public AudioSource AudioSource { get; set; }
 

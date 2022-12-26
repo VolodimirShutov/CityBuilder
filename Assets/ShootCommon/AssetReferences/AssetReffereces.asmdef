@@ -2,15 +2,12 @@
     "name": "AssetReffereces",
     "rootNamespace": "",
     "references": [
-        "Unity.Addressables.Editor",
         "Unity.Addressables",
         "SignalService",
         "Zenject",
         "Unity.ResourceManager"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

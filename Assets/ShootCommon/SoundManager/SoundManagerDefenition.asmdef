@@ -1,10 +1,13 @@
 {
-    "name": "InteractiveObjects",
+    "name": "SoundManagerDefenition",
     "rootNamespace": "",
     "references": [
-        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:15de070f632b247a1bbb790d1c56da25",
         "GUID:e8a878a6740cf40249701c9ffd63ec21",
-        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4"
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:48c9f6afdac61634db0e0f241c7d4d51",
+        "GUID:84121b3efde8745d89036401f954f950",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -7,11 +7,6 @@ using UnityEngine.TestTools;
 
 public class InteractiveObjectsManagerTest
 {
-    // A Test behaves as an ordinary method
-    [Test]
-    public void InteractiveObjectsManagerTestSimplePasses()
-    {
-    }
 
     [Test]
     public void CheckAddItem()
@@ -44,12 +39,6 @@ public class InteractiveObjectsManagerTest
         Assert.AreEqual(true, manager.ContainerIsExists("testContainer"));
         manager.AddContainer("testContainer",  container2);
         Assert.AreEqual(true, manager.ContainerIsExists("testContainer"));
-    }
-    
-    [UnityTest]
-    public IEnumerator InteractiveObjectsManagerTestWithEnumeratorPasses()
-    {
-        yield return null;
     }
 
     private InteractiveObjectsManager InitManager()
