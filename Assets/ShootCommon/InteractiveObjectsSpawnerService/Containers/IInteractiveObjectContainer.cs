@@ -4,7 +4,8 @@ namespace ShootCommon.InteractiveObjectsSpawnerService.Containers
 {
     public interface IInteractiveObjectContainer
     {
-        GameObject CreateItem(GameObject inst);
-        bool ContainerIsExist();
+        public GameObject CreateItem(GameObject inst);
+        public bool ContainerIsExist();
+        public void AddItem(GameObject item);
     }
 }

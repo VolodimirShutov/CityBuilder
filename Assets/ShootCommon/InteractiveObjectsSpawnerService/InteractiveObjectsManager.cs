@@ -38,6 +38,11 @@ namespace ShootCommon.InteractiveObjectsSpawnerService
             return _containers.ContainsKey(containerKey);
         }
 
+        public IInteractiveObjectContainer GetContainer(string containerKey)
+        {
+            return _containers.ContainsKey(containerKey)?_containers[containerKey] : null;
+        }
+
         public void Instantiate(string prefabId, string containerKey, Action<GameObject> callback = null, 
             bool inject = true)
         {

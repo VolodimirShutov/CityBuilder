@@ -14,5 +14,10 @@ namespace ShootCommon.InteractiveObjectsSpawnerService.Containers
         {
             return gameObject != null;
         }
+
+        public void AddItem(GameObject item)
+        {
+            item.transform.parent = transform;
+        }
     }
 }

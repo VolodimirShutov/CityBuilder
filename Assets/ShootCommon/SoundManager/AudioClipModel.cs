@@ -21,7 +21,6 @@ namespace Common.SoundManager
         [ConditionalField(nameof(is3dSound), false)]public Vector3 position;
         [ConditionalField(nameof(is3dSound), false)]public string containerName;
         
-
         public float AudioClipLength => audioClip == null ? 0 : audioClip.length;
         public AudioSource AudioSource { get; set; }
 
@@ -34,7 +33,12 @@ namespace Common.SoundManager
                 addressableId = this.addressableId,
                 volume = this.volume,
                 soundType = this.soundType,
-                audioMixerGroup = this.audioMixerGroup
+                audioMixerGroup = this.audioMixerGroup,
+                pitch = this.pitch,
+                
+                is3dSound = this.is3dSound,
+                position = this.position,
+                containerName = this.containerName
             };
         }
     }

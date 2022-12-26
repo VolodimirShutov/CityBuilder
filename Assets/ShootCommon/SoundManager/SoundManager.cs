@@ -4,6 +4,8 @@ using System.Linq;
 using Common.SoundManager.Config;
 using Common.SoundManager.Signals;
 using ShootCommon.AssetReferences;
+using ShootCommon.InteractiveObjectsSpawnerService;
+using ShootCommon.InteractiveObjectsSpawnerService.Containers;
 using ShootCommon.Signals;
 using UniRx;
 using UnityEngine;
@@ -26,13 +28,15 @@ namespace Common.SoundManager
         private Dictionary<string, AudioClipModel> _sounds = new Dictionary<string, AudioClipModel>();
         private AudioMixer _defaultAudioMixer;
         private IAssetReferenceDownloader _assetReferenceDownloader;
+        private IInteractiveObjectsManager _interactiveObjectsManager;
         private readonly List<AudioSource> _activeAudioSources;
 
         private ISignalService _signalService;
         
         [Inject]
-        public void Init(ISignalService signalService)
+        public void Init(ISignalService signalService, IInteractiveObjectsManager interactiveObjectsManager)
         {
+            _interactiveObjectsManager = interactiveObjectsManager;
             _signalService = signalService;
             _signalService.Receive<PlayAudioClipSignal>().Subscribe(PlayAddressableSound);
         }
@@ -100,9 +104,8 @@ namespace Common.SoundManager
             {
                 if (clipInfo.audioClip != null)
                 {
-                    PlayAudioClip(clipInfo, clipInfo.audioClip);
+                    PlayAudioClipFactory(clipInfo);
                     onDownloadComplete?.Invoke(clipInfo);
-                    return;
                 }
                 else
                 {
@@ -116,12 +119,12 @@ namespace Common.SoundManager
                     if (model == null)
                         return;
                     clipInfo.audioClip = model;
-                    PlayAudioClip(clipInfo, model);
+                    PlayAudioClipFactory(clipInfo);
                 });
             }
         }
 
-        private void PlayAudioClip(AudioClipModel clipInfo, AudioClip audioClip)
+        private void PlayAudioClipFactory(AudioClipModel clipInfo)
         {
             switch (clipInfo.soundType)
             {
@@ -157,8 +160,16 @@ namespace Common.SoundManager
             
             if(!isOnLoop)
                 DestroyClipOnFinish(audioClipModel);
-            
-            
+
+            if (audioClipModel.is3dSound)
+            {
+                IInteractiveObjectContainer container = _interactiveObjectsManager.GetContainer(audioClipModel.containerName);
+                if (container != null)
+                {
+                    container.AddItem(audioSource.gameObject);
+                    audioSource.transform.localPosition = audioClipModel.position;
+                }
+            }
         }
         
         private void Delete2DAudioClip(AudioSource source) {

@@ -14,5 +14,10 @@ namespace ShootCommon.InteractiveObjectsSpawnerService.Tests.tests.Mocks
         {
             return true;
         }
+
+        public void AddItem(GameObject item)
+        {
+            
+        }
     }
 }
